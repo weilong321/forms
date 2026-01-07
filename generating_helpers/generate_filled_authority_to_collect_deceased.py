@@ -1,35 +1,9 @@
-def generate_filled_authority_to_collect_deceased(Executor_or_Next_of_Kin, Funeral_Director, Authority_to_Collect_Deceased, PdfReader, PdfWriter):
-
-    executor_info = Executor_or_Next_of_Kin(
-        given_name='given_name',
-        family_name='family_name',
-        address='address',
-        contact_phone_number='contact_phone_number',
-        name_of_deceased='name_of_deceased',
-        relationship_to_deceased='relationship_to_deceased',
-        if_nominated='if_nominated'
-    )
-
-    funeral_director_info = Funeral_Director(
-        funeral_company_name='funeral_company_name',
-        address='address',
-        transfer_company='transfer_company',
-        contact_person='contact_person',
-        phone='04XXXXXXXX',
-        fax_or_email='fax_or_email'
-    )
-
-    authority_to_collect_info = Authority_to_Collect_Deceased(
-        facility='facility',
-        family_name='family_name',
-        given_name='given_name',
-        MRN='MRN',
-        gender='MALE',
-        dob='11/22/2222',
-        MO='MO',
-        address='address',
-        location_ward='location_ward'
-    )
+def generate_filled_authority_to_collect_deceased(deceased_info, executor_info, funeral_director_info, authority_to_collect_info, PdfReader, PdfWriter):
+    
+    dob_split = deceased_info.dob.split("/")
+    day = dob_split[0]
+    month = dob_split[1]
+    year = dob_split[2]
 
     reader = PdfReader("documents/Authority-to-collect-deceased.pdf")
     writer = PdfWriter()
@@ -41,13 +15,13 @@ def generate_filled_authority_to_collect_deceased(Executor_or_Next_of_Kin, Funer
         {
             **{
                 "Facility": (authority_to_collect_info.facility, "/F1", 0),
-                "FAMILY NAME": (authority_to_collect_info.family_name, "/F1", 0),
-                "GIVEN NAME": (authority_to_collect_info.given_name, "/F1", 0),
+                "FAMILY NAME": (deceased_info.family_name, "/F1", 0),
+                "GIVEN NAME": (deceased_info.given_name, "/F1", 0),
                 "MO": (authority_to_collect_info.MO, "/F1", 0),
-                "undefined": '/' + authority_to_collect_info.gender,
-                "undefined_2": (authority_to_collect_info.day, "/F1", 0), 
-                "undefined_3": (authority_to_collect_info.month, "/F1", 0), 
-                "undefined_4": (authority_to_collect_info.year, "/F1", 0),
+                "undefined": '/' + deceased_info.gender,
+                "undefined_2": (day, "/F1", 0), 
+                "undefined_3": (month, "/F1", 0), 
+                "undefined_4": (year, "/F1", 0),
                 "MRN": (authority_to_collect_info.MRN, "/F1", 0),
                 "ADDRESSAUTHORITY TO COLLECT DECEASED": (authority_to_collect_info.address, "/F1", 0),
                 "LOCATION  WARD": (authority_to_collect_info.location_ward, "/F1", 0)
@@ -80,13 +54,13 @@ def generate_filled_authority_to_collect_deceased(Executor_or_Next_of_Kin, Funer
         {
             **{
                 "Facility_2": (authority_to_collect_info.facility, "/F1", 0),
-                "FAMILY NAME_2": (authority_to_collect_info.family_name, "/F1", 0),
-                "GIVEN NAME_2": (authority_to_collect_info.given_name, "/F1", 0),
+                "FAMILY NAME_2": (deceased_info.family_name, "/F1", 0),
+                "GIVEN NAME_2": (deceased_info.given_name, "/F1", 0),
                 "MO_2": (authority_to_collect_info.MO, "/F1", 0),
-                "undefined_6": '/' + authority_to_collect_info.gender + '_2',
-                "DOB_2": (authority_to_collect_info.day, "/F1", 0), 
-                "undefined_7": (authority_to_collect_info.month, "/F1", 0), 
-                "undefined_8": (authority_to_collect_info.year, "/F1", 0),
+                "undefined_6": '/' + deceased_info.gender + '_2',
+                "DOB_2": (day, "/F1", 0), 
+                "undefined_7": (month, "/F1", 0), 
+                "undefined_8": (year, "/F1", 0),
                 "MRN_2": (authority_to_collect_info.MRN, "/F1", 0),
                 "ADDRESSAUTHORITY TO COLLECT DECEASED_2": (authority_to_collect_info.address, "/F1", 0),
                 "LOCATION  WARD_2": (authority_to_collect_info.location_ward, "/F1", 0)
