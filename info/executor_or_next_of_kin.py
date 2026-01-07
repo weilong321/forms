@@ -8,3 +8,14 @@ class Executor_or_Next_of_Kin:
         self.name_of_deceased = name_of_deceased
         self.relationship_to_deceased = relationship_to_deceased
         self.if_nominated = if_nominated
+
+    def to_dict(self):
+        return {
+            "given_name": self.given_name,
+            "family_name": self.family_name,
+            "address": self.address,
+            "contact_phone_number": self.contact_phone_number,
+            "name_of_deceased": self.name_of_deceased,
+            "relationship_to_deceased": self.relationship_to_deceased,
+            "if_nominated": self.if_nominated
+        }
