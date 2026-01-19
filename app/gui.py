@@ -116,9 +116,6 @@ def load_case_into_form(case_code):
     collect_authority_location.delete(0, tk.END)
     collect_authority_location.insert(0, data["authority_to_collect_deceased"]["location_ward"])
 
-    # ------------ TRANSFER AUTHORITY --------------------
-
-
 
 def on_deceased_selected():
     selection = selected_deceased.get()
@@ -260,129 +257,12 @@ root.title("Funeral Case Entry")
 
 selected_deceased = tk.StringVar()
 
-# ---------------- DECEASED ----------------
-tk.Label(root, text="Deceased", font=("Arial", 10, "bold")).grid(
-    row=layout.deceased["start"], column=0, sticky="w", pady=(10, 0)
-)
-
-d_given = tk.Entry(root)
-d_family = tk.Entry(root)
-d_dob = DateEntry(root, date_pattern="dd/mm/yyyy", showweeknumbers=False, width=17)
-
-d_no_unit = tk.Entry(root)
-d_street = tk.Entry(root)
-d_suburb = tk.Entry(root)
-d_state = tk.Entry(root)
-d_country = tk.Entry(root)
-
-# Gender
-gender_var = tk.StringVar(value="MALE")
-tk.Label(root, text="Gender").grid(
-    row=layout.deceased["gender"], column=0, sticky="e", padx=5
-)
-male_rb = tk.Radiobutton(root, text="MALE", variable=gender_var, value="MALE")
-female_rb = tk.Radiobutton(root, text="FEMALE", variable=gender_var, value="FEMALE")
-male_rb.grid(row=layout.deceased["gender"], column=1, sticky="w")
-female_rb.grid(row=layout.deceased["gender"], column=1, sticky="e")
-
-# Labels + entries
-deceased_labels = [
-    ("Given Name", d_given, layout.deceased["given_name"]),
-    ("Family Name", d_family, layout.deceased["family_name"]),
-    ("DOB", d_dob, layout.deceased["dob"]),
-    ("House/Unit Number", d_no_unit, layout.deceased["house_unit"]),
-    ("Street Name", d_street, layout.deceased["street"]),
-    ("Suburb Name", d_suburb, layout.deceased["suburb"]),
-    ("State", d_state, layout.deceased["state"]),
-    ("Country", d_country, layout.deceased["country"]),
-]
-
-for label, entry, row in deceased_labels:
-    tk.Label(root, text=label).grid(row=row, column=0, sticky="e", padx=5)
-    entry.grid(row=row, column=1, padx=5, pady=2)
-
-# ---------------- EXECUTOR / NEXT OF KIN ----------------
-tk.Label(root, text="Executor / Next of Kin", font=("Arial", 10, "bold")).grid(
-    row=layout.executor["start"], column=0, sticky="w", pady=(10, 0)
-)
-
-e_given = tk.Entry(root)
-e_family = tk.Entry(root)
-e_address = tk.Entry(root)
-e_phone = tk.Entry(root)
-e_relationship = tk.Entry(root)
-e_is_nominated = tk.Entry(root)
-
-executor_fields = [
-    ("Given Name", e_given, layout.executor["given_name"]),
-    ("Family Name", e_family, layout.executor["family_name"]),
-    ("Address", e_address, layout.executor["address"]),
-    ("Phone", e_phone, layout.executor["phone"]),
-    ("Relationship", e_relationship, layout.executor["relationship"]),
-    ("Is Nominated", e_is_nominated, layout.executor["is_nominated"]),
-]
-
-for label, entry, row in executor_fields:
-    tk.Label(root, text=label).grid(row=row, column=0, sticky="e", padx=5)
-    entry.grid(row=row, column=1, padx=5, pady=2)
-
-# ---------------- FUNERAL DIRECTOR ----------------
-tk.Label(root, text="Funeral Director", font=("Arial", 10, "bold")).grid(
-    row=layout.funeral_director["start"], column=0, sticky="w", pady=(10, 0)
-)
-
-fd_company = tk.Entry(root)
-fd_address = tk.Entry(root)
-fd_transfer = tk.Entry(root)
-fd_contact = tk.Entry(root)
-fd_phone = tk.Entry(root)
-fd_fax_email = tk.Entry(root)
-
-funeral_fields = [
-    ("Company Name", fd_company, layout.funeral_director["company_name"]),
-    ("Address", fd_address, layout.funeral_director["address"]),
-    ("Transfer Company", fd_transfer, layout.funeral_director["transfer_company"]),
-    ("Contact Person", fd_contact, layout.funeral_director["contact_person"]),
-    ("Phone", fd_phone, layout.funeral_director["phone"]),
-    ("Fax / Email", fd_fax_email, layout.funeral_director["fax_email"]),
-]
-
-for label, entry, row in funeral_fields:
-    tk.Label(root, text=label).grid(row=row, column=0, sticky="e", padx=5)
-    entry.grid(row=row, column=1)
-
-# -------- AUTHORITY TO COLLECT DECEASED -------------
-tk.Label(root, text="Authority to Collect Deceased Document", font=("Arial", 10, "bold")).grid(
-    row=layout.authority["start"], column=0, sticky="w", pady=(10, 0)
-)
-
-collect_authority_facility = tk.Entry(root)
-collect_authority_MRN = tk.Entry(root)
-collect_authority_MO = tk.Entry(root)
-collect_authority_address = tk.Entry(root)
-collect_authority_location = tk.Entry(root)
-
-authority_fields = [
-    ("Facility", collect_authority_facility, layout.authority["facility"]),
-    ("MRN", collect_authority_MRN, layout.authority["mrn"]),
-    ("MO", collect_authority_MO, layout.authority["mo"]),
-    ("Address", collect_authority_address, layout.authority["address"]),
-    ("Location / Ward", collect_authority_location, layout.authority["location_ward"]),
-]
-
-for label, entry, row in authority_fields:
-    tk.Label(root, text=label).grid(row=row, column=0, sticky="e", padx=5)
-    entry.grid(row=row, column=1, padx=5, pady=2)
-
-
-# ---------------- LOAD EXISTING CASE ----------------
-tk.Label(root, text="Select Existing Case").grid(row=1, column=0, sticky="e", padx=5)
-
+# Top section: Load existing case (spans both columns)
 tk.Label(
     root,
     text="Select Existing Case",
     font=("Arial", 10, "bold")
-).grid(row=0, column=0, sticky="w", padx=5, pady=5)
+).grid(row=0, column=0, columnspan=2, sticky="w", padx=5, pady=5)
 
 deceased_dropdown = ttk.Combobox(
     root,
@@ -390,14 +270,142 @@ deceased_dropdown = ttk.Combobox(
     state="readonly",
     width=45
 )
-deceased_dropdown.grid(row=1, column=1, padx=10, pady=5)
+deceased_dropdown.grid(row=1, column=0, columnspan=2, padx=10, pady=5)
 
 deceased_dropdown.bind("<<ComboboxSelected>>", lambda e: on_deceased_selected())
 refresh_deceased_dropdown(deceased_dropdown)
 
-# ---------------- SUBMIT ----------------
+# Create left frame for personal info
+left_frame = tk.Frame(root)
+left_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=10)
+
+# Create right frame for document info
+right_frame = tk.Frame(root)
+right_frame.grid(row=2, column=1, sticky="nsew", padx=10, pady=10)
+
+# Configure column weights for proper resizing
+root.grid_columnconfigure(0, weight=1)
+root.grid_columnconfigure(1, weight=1)
+
+# ============ LEFT FRAME: DECEASED, EXECUTOR, FUNERAL DIRECTOR ============
+
+# --- DECEASED ---
+tk.Label(left_frame, text="Deceased", font=("Arial", 10, "bold")).grid(
+    row=0, column=0, sticky="w", pady=(10, 0)
+)
+
+d_given = tk.Entry(left_frame)
+d_family = tk.Entry(left_frame)
+d_dob = DateEntry(left_frame, date_pattern="dd/mm/yyyy", showweeknumbers=False, width=17)
+
+d_no_unit = tk.Entry(left_frame)
+d_street = tk.Entry(left_frame)
+d_suburb = tk.Entry(left_frame)
+d_state = tk.Entry(left_frame)
+d_country = tk.Entry(left_frame)
+
+# Gender
+gender_var = tk.StringVar(value="MALE")
+tk.Label(left_frame, text="Gender").grid(
+    row=5, column=0, sticky="e", padx=5
+)
+male_rb = tk.Radiobutton(left_frame, text="MALE", variable=gender_var, value="MALE")
+female_rb = tk.Radiobutton(left_frame, text="FEMALE", variable=gender_var, value="FEMALE")
+male_rb.grid(row=5, column=1, sticky="w")
+female_rb.grid(row=5, column=1, sticky="e")
+
+deceased_labels = [
+    ("Given Name", d_given, 1),
+    ("Family Name", d_family, 2),
+    ("DOB", d_dob, 3),
+    ("House/Unit Number", d_no_unit, 6),
+    ("Street Name", d_street, 7),
+    ("Suburb Name", d_suburb, 8),
+    ("State", d_state, 9),
+    ("Country", d_country, 10),
+]
+
+for label, entry, row in deceased_labels:
+    tk.Label(left_frame, text=label).grid(row=row, column=0, sticky="e", padx=5)
+    entry.grid(row=row, column=1, padx=5, pady=2)
+
+# --- EXECUTOR / NEXT OF KIN ---
+tk.Label(left_frame, text="Executor / Next of Kin", font=("Arial", 10, "bold")).grid(
+    row=11, column=0, sticky="w", pady=(10, 0)
+)
+
+e_given = tk.Entry(left_frame)
+e_family = tk.Entry(left_frame)
+e_address = tk.Entry(left_frame)
+e_phone = tk.Entry(left_frame)
+e_relationship = tk.Entry(left_frame)
+e_is_nominated = tk.Entry(left_frame)
+
+executor_fields = [
+    ("Given Name", e_given, 12),
+    ("Family Name", e_family, 13),
+    ("Address", e_address, 14),
+    ("Phone", e_phone, 15),
+    ("Relationship", e_relationship, 16),
+    ("Is Nominated", e_is_nominated, 17),
+]
+
+for label, entry, row in executor_fields:
+    tk.Label(left_frame, text=label).grid(row=row, column=0, sticky="e", padx=5)
+    entry.grid(row=row, column=1, padx=5, pady=2)
+
+# --- FUNERAL DIRECTOR ---
+tk.Label(left_frame, text="Funeral Director", font=("Arial", 10, "bold")).grid(
+    row=18, column=0, sticky="w", pady=(10, 0)
+)
+
+fd_company = tk.Entry(left_frame)
+fd_address = tk.Entry(left_frame)
+fd_transfer = tk.Entry(left_frame)
+fd_contact = tk.Entry(left_frame)
+fd_phone = tk.Entry(left_frame)
+fd_fax_email = tk.Entry(left_frame)
+
+funeral_fields = [
+    ("Company Name", fd_company, 19),
+    ("Address", fd_address, 20),
+    ("Transfer Company", fd_transfer, 21),
+    ("Contact Person", fd_contact, 22),
+    ("Phone", fd_phone, 23),
+    ("Fax / Email", fd_fax_email, 24),
+]
+
+for label, entry, row in funeral_fields:
+    tk.Label(left_frame, text=label).grid(row=row, column=0, sticky="e", padx=5)
+    entry.grid(row=row, column=1, padx=5, pady=2)
+
+# ============ RIGHT FRAME: AUTHORITY TO COLLECT DECEASED ============
+
+tk.Label(right_frame, text="Authority to Collect Deceased", font=("Arial", 10, "bold")).grid(
+    row=0, column=0, sticky="w", pady=(10, 0)
+)
+
+collect_authority_facility = tk.Entry(right_frame)
+collect_authority_MRN = tk.Entry(right_frame)
+collect_authority_MO = tk.Entry(right_frame)
+collect_authority_address = tk.Entry(right_frame)
+collect_authority_location = tk.Entry(right_frame)
+
+authority_fields = [
+    ("Facility", collect_authority_facility, 1),
+    ("MRN", collect_authority_MRN, 2),
+    ("MO", collect_authority_MO, 3),
+    ("Address", collect_authority_address, 4),
+    ("Location / Ward", collect_authority_location, 5),
+]
+
+for label, entry, row in authority_fields:
+    tk.Label(right_frame, text=label).grid(row=row, column=0, sticky="e", padx=5)
+    entry.grid(row=row, column=1, padx=5, pady=2)
+
+# ============ SUBMIT BUTTON (bottom, spans both columns) ============
 tk.Button(root, text="Submit Case", command=submit).grid(
-    row=layout.submit_row, column=0, columnspan=2, pady=15
+    row=3, column=0, columnspan=2, pady=15
 )
 
 root.mainloop()
