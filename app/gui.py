@@ -401,12 +401,3 @@ tk.Button(root, text="Submit Case", command=submit).grid(
 )
 
 root.mainloop()
-
-# add address to deceased_info and fix transfer authority based on deceased address
-# changed address to the different parts, now need to fix formatting
-# new data structure: dictionary with key pair as:
-# dict = 
-    # deceased: {"field1":row_number1, "field2":row_number2, etc}
-    # executor: {}
-    # funeral_director: {}
-# pass in those as arguments
